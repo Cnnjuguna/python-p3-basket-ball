@@ -90,11 +90,10 @@ def game_dict():
                 },
             ],
         },
-            
         "away": {
             "team_name": "Washington Wizards",
             "colors": ["Red", "White", "Navy Blue"],
-            "players": [   
+            "players": [
                 {
                     "name": "Bradley Beal",
                     "number": 3,
@@ -179,6 +178,69 @@ def game_dict():
                     "height_inches": 80,
                     "shoe_brand": "Jordan",
                 },
-            ]
-        }
+            ],
+        },
     }
+
+
+# print(game_dict()["home"]["team_name"])
+
+
+def num_points_per_game(player_name, game_data=game_dict()):
+    home_team = game_data["home"]
+    away_team = game_data["away"]
+
+    for team in [home_team, away_team]:
+        for player in team["players"]:
+            if player["name"] == player_name:
+                return player["points_per_game"]
+    return None
+
+
+print(num_points_per_game("Bradley Beal", game_dict()))
+
+
+def player_age(player_name, game_data):
+    home_team = game_data["home"]
+    away_team = game_data["away"]
+
+    for team in [home_team, away_team]:
+        for player in team["players"]:
+            if player["name"] == player_name:
+                return player["age"]
+    return None
+
+
+print(player_age("Bradley Beal", game_dict()))
+
+
+def team_colors():
+    """
+    Purpose:
+    """
+    pass
+
+
+def team_names():
+    pass
+
+
+def player_numbers():
+    """
+    Purpose:
+    """
+    pass
+
+
+def player_stats():
+    """
+    Purpose:
+    """
+    pass
+
+
+def average_rebounds_by_shoe_brand():
+    """
+    Purpose: arg
+    """
+    pass
