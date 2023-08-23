@@ -197,7 +197,7 @@ def num_points_per_game(player_name, game_data=game_dict()):
     return None
 
 
-print(num_points_per_game("Bradley Beal", game_dict()))
+print(num_points_per_game("Bradley Beal", game_data=game_dict()))
 
 
 def player_age(player_name, game_data):
@@ -211,36 +211,121 @@ def player_age(player_name, game_data):
     return None
 
 
-print(player_age("Bradley Beal", game_dict()))
+print(player_age("Bradley Beal", game_data=game_dict()))
 
 
-def team_colors():
+def team_colors(team_name, game_data):
     """
-    Purpose:
+    Purpose:takes in an argument
+    of the team name and returns a
+    list of that team's colors.
     """
+    home_team = game_data["home"]
+    away_team = game_data["away"]
+
+    for team in [home_team, away_team]:
+        if team["team_name"] == team_name:
+            return team["colors"]
     pass
 
 
-def team_names():
+print(team_colors("Washington Wizards", game_data=game_dict()))
+
+
+def team_names(game_data):
+    """
+    operates
+    on the dictionary
+    to return a list of
+    the team names.
+    """
+    home_team = game_data["home"]
+    away_team = game_data["away"]
+
+    teams_list = set()
+    for team in [home_team, away_team]:
+        teams_list.add(team["team_name"])
+    return list(teams_list)
     pass
 
 
-def player_numbers():
+print(team_names(game_dict()))
+
+
+def player_numbers(team_name, game_data=game_dict()):
     """
-    Purpose:
+    Args: team name
+    Purpose:returns a list of
+    the jersey
+    numbers for that team.
     """
+    home_team = game_data["home"]
+    away_team = game_data["away"]
+
+    for team in [home_team, away_team]:
+        if team["team_name"] == team_name:
+            return [player["number"] for player in team["players"]]
     pass
 
 
-def player_stats():
+print(player_numbers("Washington Wizards", game_dict()))
+
+
+def player_stats(player_name, game_data=game_dict):
     """
-    Purpose:
+    Args:player's name
+    Purpose:returns a dictionary of that player's stats.
     """
+    home_team = game_data["home"]
+    away_team = game_data["away"]
+
+    for team in [home_team, away_team]:
+        for player in team["players"]:
+            if player["name"] == player_name:
+                return player
     pass
 
 
-def average_rebounds_by_shoe_brand():
+print(player_stats("Bradley Beal", game_dict()))
+
+
+def average_rebounds_by_shoe_brand(game_data=game_dict()):
     """
-    Purpose: arg
+    Purpose: calculate the average number
+    of rebounds for players who wear a particular
+    shoe brand.
+    Args:
+    return format: { "Nike": [5.0, 8.1, 4.7] }
     """
-    pass
+    shoe_brand_rebounds_dict = {}
+    player_stats = []
+    home_team = game_data["home"]
+    away_team = game_data["away"]
+
+    for team in [home_team, away_team]:
+        player_stats.extend(team["players"])  # Adding iterable player_data to player_stats list only list
+
+        for player in player_stats:
+            # iterate and add shoe brands to shoe_brand_rebounds dict
+            shoe_brand = player["shoe_brand"]
+            player_rebounds_per_game = player["rebounds_per_game"]
+
+            # If shoe_brand is not in dictionary, add it with an empty list
+            if shoe_brand not in shoe_brand_rebounds_dict:
+                shoe_brand_rebounds_dict[shoe_brand] = [player_rebounds_per_game]
+            else:
+                shoe_brand_rebounds_dict[shoe_brand].append(player_rebounds_per_game)
+
+    # Calculate Average Rebounds for Each Shoe Brand:
+    # (sum of rebounds) / (number of rebounds)
+    # for {k:v in dict.items()}
+    for shoe_brand, rebound_list in shoe_brand_rebounds_dict.items():
+        total_rebounds = sum(rebound_list)
+        num_of_players = len(rebound_list)
+        avg_rebounds = total_rebounds / num_of_players
+        avg_rebounds = "{:.2f}".format(avg_rebounds)
+
+        print(f"{shoe_brand}: {avg_rebounds}")
+
+
+average_rebounds_by_shoe_brand(game_dict())
